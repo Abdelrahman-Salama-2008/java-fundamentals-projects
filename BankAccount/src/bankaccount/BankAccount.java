@@ -79,7 +79,7 @@ public class BankAccount
         if (users.get(acNumber) != null)
         {
             System.out.print("Enter the amount: ");
-            money = x.nextInt();
+            money = x.nextDouble();
             x.nextLine();
             users.get(acNumber).deposit(money);
         }else
@@ -97,7 +97,7 @@ public class BankAccount
         if (users.get(acNumber) != null)
         {
             System.out.print("Enter Amount: ");
-            money = x.nextInt();
+            money = x.nextDouble();
             x.nextLine();
             users.get(acNumber).withdraw(money);
         }
