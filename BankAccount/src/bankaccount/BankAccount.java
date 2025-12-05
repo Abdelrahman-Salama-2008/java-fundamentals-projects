@@ -41,7 +41,7 @@ public class BankAccount
                 break;
                 
             default:
-                System.out.println("Invalid Choice. Try agian");
+                System.out.println("Invalid Choice. Try again");
             }
             
         }while(choice != 5);
@@ -59,7 +59,7 @@ public class BankAccount
         acHolder = x.nextLine();
         if(users.containsKey(acNumber))
         {
-            System.out.println("Account number is already taken. Try again with a deferent Number");
+            System.out.println("Account number is already taken. Try again with a different Number");
         }
         else
         {
@@ -74,14 +74,17 @@ public class BankAccount
         double money;
         
         System.out.println("--- Deposit ---");
-        System.out.print("Enter Account Number to diposit into: ");
+        System.out.print("Enter Account Number to deposit into: ");
         acNumber = x.nextLine();
         if (users.get(acNumber) != null)
         {
             System.out.print("Enter the amount: ");
             money = x.nextDouble();
             x.nextLine();
-            users.get(acNumber).deposit(money);
+            if (money <= 0)
+                System.out.println("The deposit must be a positive number");
+            else
+                users.get(acNumber).deposit(money);
         }else
             System.out.println("Error: Account " + acNumber + " not found!");
     }
@@ -99,7 +102,10 @@ public class BankAccount
             System.out.print("Enter Amount: ");
             money = x.nextDouble();
             x.nextLine();
-            users.get(acNumber).withdraw(money);
+            if (money <= 0)
+                System.out.println("The withdraw must be a positive number");
+            else
+                users.get(acNumber).withdraw(money);
         }
         else
             System.out.println("Error: Account " + acNumber + " not found!");

@@ -16,7 +16,7 @@ public class Account
     
     public String toString()
     {
-        return String.format("Account: %s | Name: %s | Balanace: $%f", this.accountNumber, this.accountHolder, this.balance);
+        return String.format("Account: %s | Name: %s | Balanace: $%.2f", this.accountNumber, this.accountHolder, this.balance);
     }
     
     public void deposit(double moneyin) 
@@ -32,7 +32,7 @@ public class Account
         System.out.println("you are going to withdraw $"+moneyout);
         if(moneyout > balance)
         {
-            System.out.println("ineffecient fund");
+            System.out.println("insufficient fund");
         }else
         {
             System.out.println("withdraw successfull");
