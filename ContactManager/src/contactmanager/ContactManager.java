@@ -15,8 +15,23 @@ public class ContactManager
         {
             System.out.println("1- add a new contact\n2- view all contact\n3- remove a contact\n4- exit");
             System.out.print("enter choice: ");
-            input = x.nextInt();
-            x.nextLine();
+            
+            while(true)
+            {
+                if (x.hasNextInt())
+                {
+                    input = x.nextInt();
+                    x.nextLine();
+                    break;
+                }else
+                {
+                    System.out.println("Invalid input. Please enter a number.");
+                    x.next();
+                }
+            }
+            
+            
+            
             
             switch (input)
             {
@@ -43,8 +58,14 @@ public class ContactManager
     public static void add()
     {
         String name, phone, email;
-        System.out.print("Name: ");
-        name = x.nextLine();
+        
+        do
+        {
+            System.out.print("Enter a unique Name: ");
+            name = x.nextLine();
+            
+        }while(isNameRegistered(name));
+        
         System.out.print("phone number: ");
         phone = x.nextLine();
         System.out.print("email: ");
@@ -72,33 +93,33 @@ public class ContactManager
     
     public static void remove()
     {
-        String name;
+        String nametoremove;
         System.out.print("enter Name: ");
-        name = x.nextLine();
-        boolean isFound = false;
-        int index = -1;
+        nametoremove = x.nextLine();
+  
+        boolean removed = contacts.removeIf(eachContact -> eachContact.getName().equalsIgnoreCase(nametoremove));
         
-        for (int i = 0; i < contacts.size(); i++)
+        if(removed)
         {
-            if(name.equals(contacts.get(i).getName()))
-            {
-                isFound = true;
-                index = i;
-                break;
-            }
-        }
-        
-        if(isFound)
-        {
-            contacts.remove(index);
-            System.out.printf("%s is removed successfully\n", name);
-            isFound = false;
+            System.out.printf("%s is removed successfully\n", nametoremove);
         }else
-            System.out.printf("%s is not registered here\n", name);
+            System.out.printf("%s is not registered here\n", nametoremove);
     }
     
     public static void exit()
     {
         System.out.println("thank you for using the app\nGoodbye");
+    }
+    
+    public static boolean isNameRegistered(String name)
+    {
+       for(Contact eachContact : contacts)
+       {
+            if(name.equalsIgnoreCase(eachContact.getName()))
+            {
+                return true;
+            }
+       }
+       return false;
     }
 }
