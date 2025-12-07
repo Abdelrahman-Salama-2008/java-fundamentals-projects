@@ -19,10 +19,7 @@ public class Course
     
     public boolean isfull()
     {
-        if (capacity == fullCapacity)
-            return true;
-        
-        return false;
+        return capacity >= fullCapacity;
     }
     
     public String getName()

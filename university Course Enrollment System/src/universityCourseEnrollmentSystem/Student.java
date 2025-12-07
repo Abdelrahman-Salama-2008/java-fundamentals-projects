@@ -26,7 +26,7 @@ public class Student
         courses.add(courseName);
     }
     
-    public boolean ifRegistered(String courseName)
+    public boolean isRegistered(String courseName)
     {
         return courses.contains(courseName);
     }

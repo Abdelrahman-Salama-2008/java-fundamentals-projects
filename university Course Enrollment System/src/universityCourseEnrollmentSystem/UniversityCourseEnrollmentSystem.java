@@ -7,7 +7,7 @@ public class UniversityCourseEnrollmentSystem
 {
     private static HashMap <String, Student> students = new HashMap <>(); //students HashMap
     private static ArrayList <Course> courses = new ArrayList <>(); //courses ArrayList
-    private static Scanner x = new Scanner(System.in); // Scanner
+    private static Scanner scanner = new Scanner(System.in); // Scanner
     
     public static void main(String[] args) 
     {
@@ -18,13 +18,11 @@ public class UniversityCourseEnrollmentSystem
         
         int choice;
         
-        
         do{
             System.out.println("=== UNIVERSITY ENROLLMENT SYSTEM ===");
             System.out.println("1. Register New Student\n2. List Available Courses\n3. Enroll Student in a Course\n4. Search Student Details\n5. Exit");
             System.out.print("CHOICE: ");
-            choice = x.nextInt();
-            x.nextLine();
+            choice = readInt();
             
             switch(choice)
             {
@@ -38,7 +36,7 @@ public class UniversityCourseEnrollmentSystem
                     enrollStudent();
                     break;
                 case 4 : // view student info
-                    studentInfo();
+                    showStudentInfo();
                     break;
                 case 5 :
                     System.out.println("Goodbye");
@@ -54,11 +52,11 @@ public class UniversityCourseEnrollmentSystem
     {
         String ID, name;
         System.out.print("Enter Student ID: ");
-        ID = x.nextLine();
+        ID = scanner.nextLine();
         if(!students.containsKey(ID))
         {
             System.out.print("Enter Student Name: ");
-            name = x.nextLine();
+            name = scanner.nextLine();
             students.put(ID, new Student(ID, name));
             System.out.println("Student Registered Successfully");
         }else
@@ -81,20 +79,18 @@ public class UniversityCourseEnrollmentSystem
         String ID;
         int courseNum;
         System.out.print("Enter Student ID: ");
-        ID = x.nextLine();
-        if(students.containsKey(ID))
-        {
-            System.out.printf("Student found: %s\n", students.get(ID).getName());
-        }else
+        ID = scanner.nextLine();
+        if(!students.containsKey(ID))
         {
             System.out.println("Student not found");
             return;
         }
-                    
+        
+        System.out.printf("Student found: %s\n", students.get(ID).getName());            
         System.out.print("Select Course Number from Catalog: ");
-        courseNum = x.nextInt();
-        x.nextLine();
-                    
+        
+        courseNum = readInt();
+        
         if(courses.size() < courseNum || courseNum < 1)
         {
             System.out.println("course not available. Please try again");
@@ -104,30 +100,48 @@ public class UniversityCourseEnrollmentSystem
         if(courses.get(courseNum - 1).isfull())
         {
             System.out.printf("[Error]: Course \" %s \" is FULL. Enrollment failed.\n", courses.get(courseNum - 1).getName());
-        }else
-        {
-            if(students.get(ID).ifRegistered(courses.get(courseNum - 1).getName()))
-            {
-                System.out.println("Student is already enrolled in this course");
-            }else
-            {
-                courses.get(courseNum - 1).incrementCapacity();
-                students.get(ID).addCourse(courses.get(courseNum - 1).getName());
-                System.out.printf("[System]: Success! %s enrolled in \"%s\" \n", students.get(ID).getName(), courses.get(courseNum - 1).getName());
-            }
+            return;
         }
+        if(students.get(ID).isRegistered(courses.get(courseNum - 1).getName()))
+        {
+            System.out.println("Student is already enrolled in this course");
+            return;
+        }
+            
+        courses.get(courseNum - 1).incrementCapacity();
+        students.get(ID).addCourse(courses.get(courseNum - 1).getName());
+        System.out.printf("[System]: Success! %s enrolled in \"%s\" \n", students.get(ID).getName(), courses.get(courseNum - 1).getName());
+            
     }
     
-    private static void studentInfo()
+    private static void showStudentInfo()
     {
         String ID;
         System.out.print("Enter Student ID: ");
-        ID = x.nextLine();
+        ID = scanner.nextLine();
         if(students.get(ID) != null)
         {
             students.get(ID).studentInfo();
         }else
             System.out.println("Student not found");
                         
+    }
+    
+    private static int readInt()
+    {
+        int result;
+           while(true)
+        {
+            if(scanner.hasNextInt())
+            {
+                result = scanner.nextInt();
+                scanner.nextLine();
+                return result;
+            }else
+            {
+                scanner.next();   
+            }
+            System.out.print("input numbers only. try again: ");
+        }
     }
 }
